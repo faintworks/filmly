@@ -11,8 +11,8 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def index():
-
-    return render_template("index.html")
+    all_items = items.get_items()
+    return render_template("index.html", items=all_items)
 
 @app.route("/new_item")
 def new_item():
@@ -39,16 +39,16 @@ def create():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
     if password1 != password2:
-        return "VIRHE: salasanat eivät ole samat"
+        return "ERROR: passwords do not match"
     password_hash = generate_password_hash(password1)
 
     try:
         sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
         db.execute(sql, [username, password_hash])
     except sqlite3.IntegrityError:
-        return "VIRHE: tunnus on jo varattu"
+        return "ERROR: username already taken"
 
-    return "Tunnus luotu"
+    return "Account creation successful"
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -69,7 +69,7 @@ def login():
             session["username"] = username
             return redirect("/")
         else:
-            return "VIRHE: väärä tunnus tai salasana"
+            return "ERROR: wrong username or password"
 
 @app.route("/logout")
 def logout():
