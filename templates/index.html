@@ -9,16 +9,17 @@
     <hl>Filmly</hl>
     {% if session.username %}
     <p>
-        You are logged in as {{ session.username }}
+        You are logged in as: {{ session.username }} <br>
+        UID: {{session.user_id}}
     </p>
     <p>
         <a href="/logout">Log out</a>
+        <a href="/new_item">New review</a>
     </p>
     {% else %}
     <p>
         <a href="/login">Log in</a>
         <a href="/register">Register</a>
-        
     </p>
     {% endif %}
 </body>

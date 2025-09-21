@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Post new review</title>
+</head>
+
+<body>
+  <h1>New review</h1>
+  <form action="/create_item" method="post">
+    <p>
+      Movie title: <br />
+      <input type="text" name="movie" />
+    </p>
+    <p>
+      Review: <br />
+      <textarea name="review" rows="10" cols="80"></textarea>
+    </p>
+    <p>
+      Score (1-5): <br />
+      <input name="score" type="range" min="0" max="4" step="1" style="padding: 0;">
+    </p>
+    <input type="submit" value="Post" />
+  </form>
+</body>
+
+</html>
