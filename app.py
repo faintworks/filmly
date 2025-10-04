@@ -14,6 +14,11 @@ def index():
     all_items = items.get_items()
     return render_template("index.html", items=all_items)
 
+@app.route("/item/<int:item_id>")
+def show_item(item_id):
+    item = items.get_item(item_id)
+    return render_template("show_item.html", item=item)
+
 @app.route("/new_item")
 def new_item():
     return render_template("new_item.html")
@@ -48,7 +53,7 @@ def create():
     except sqlite3.IntegrityError:
         return "ERROR: username already taken"
 
-    return "Account creation successful"
+    return redirect("/")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
