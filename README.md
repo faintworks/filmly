@@ -14,12 +14,40 @@ The basic features will include:
 Current features:
 * Account creation/login/logout
 * Posting reviews and viewing them on the front page 
+* Editing and deleting reviews
+* Searching for reviews by keyword in title or review
 
-How to test:
-1: Clone repository to a folder
-2: Open command line of choice and change working directory to folder
-3: Create databases from schema.sql (sqlite3 database.db -> paste tables)
-4: Run flask run command
+Testing instructions:
+After cloning the repository and changing your terminal working directory there run these commands:
 
-Instructions assume all dependencies required in app development are installed.
+Creating the virtual environment and installing requirements:
+
+```
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+On windows the process is a bit different:
+
+```
+python -m venv venv
+venv\scripts\activate
+pip install -r requirements.txt
+```
+
+Create the database tables:
+
+```
+sqlite3 database.db < schema.sql
+.q #quit sqlite3 and return to terminal
+```
+
+Start the app with:
+
+```
+flask run
+```
+
+Then go to http://localhost:5000 in your browser to use the app.
 
