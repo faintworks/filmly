@@ -7,14 +7,25 @@
 
 <body>
   <h1>{{ item.movie }} </h1>
+    {% if session.user_id == item.user_id %}
     <p>
-    {{ item.review }}
+        <a href="/edit_item/{{ item.id }}">Edit post</a>
     </p>
     <p>
-    Score: {{ item.score }}
+        <a href="/delete/">Delete post</a>
+    </p>
+    {% endif %}
+    <p>
+        {{ item.review }}
     </p>
     <p>
-    Review posted by: {{ item.username }}
+        Score: {{ item.score }}/5
+    </p>
+    <p>
+        Review posted by: {{ item.username }}
+    </p>
+    <p>
+    <a href="/" >Return to main page</a>
     </p>
 </body>
 

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Edit review</title>
+</head>
+
+<body>
+  <h1>Edit review</h1>
+  <form action="/update_item" method="post">
+    <p>
+      Movie title: <br />
+      <input type="text" name="movie" value="{{ item.movie }}"/>
+    </p>
+    <p>
+      Review: <br />
+      <textarea name="review" rows="10" cols="80">{{ item.review }}</textarea>
+    </p>
+    <p>
+      Score (0-5): <br />
+      <input name="score" type="range" min="0" max="5" step="1" style="padding: 0;" value="{{ item.score }}">
+    </p>
+    <input type="hidden" name="item_id" value="{{ item.id }}" />
+    <input type="submit" value="Save changes" />
+  </form>
+</body>
+
+</html>
