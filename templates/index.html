@@ -11,14 +11,13 @@
 
     {% if session.username %}
       <p>
-        You are logged in as: <strong>{{ session.username }}</strong><br />
-        UID: {{ session.user_id }}
+        You are logged in as: <strong>{{ session.username }}</strong> (UID <strong>{{ session.user_id }})</strong>   <a href="/logout">Log out</a><br /> 
       </p>
 
       <nav aria-label="User">
         <ul>
           <li><a href="/new_item">New review</a></li>
-          <li><a href="/logout">Log out</a></li>
+          <li><a href="/find_item">Search</a></li>
         </ul>
       </nav>
     {% else %}
