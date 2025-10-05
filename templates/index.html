@@ -1,36 +1,53 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Filmly</title>
 </head>
-
 <body>
-    <hl>Filmly</hl>
+  <header>
+    <h1>Filmly</h1>
+
     {% if session.username %}
-    <p>
-        You are logged in as: {{ session.username }} <br>
-        UID: {{session.user_id}}
-    </p>
+      <p>
+        You are logged in as: <strong>{{ session.username }}</strong><br />
+        UID: {{ session.user_id }}
+      </p>
 
-    <p>
-        <a href="/logout">Log out</a>
-        <a href="/new_item">New review</a>
-    </p>
+      <nav aria-label="User">
+        <ul>
+          <li><a href="/new_item">New review</a></li>
+          <li><a href="/logout">Log out</a></li>
+        </ul>
+      </nav>
     {% else %}
-    <p>
-        <a href="/login">Log in</a>
-        <a href="/register">Register</a>
-    </p>
+      <nav aria-label="Auth">
+        <ul>
+          <li><a href="/login">Log in</a></li>
+          <li><a href="/register">Register</a></li>
+        </ul>
+      </nav>
     {% endif %}
+  </header>
 
-    <h2>Reviews</h2>
-    <ul>
-        {% for item in items %}
-      <li>
-        <a href="/item/{{ item.id }}">{{ item.movie }}</a> Score: {{ item.score }}
-      </li>
-        {% endfor %}
-    </ul>
+  <main>
+    <section aria-labelledby="reviews-heading">
+      <h2 id="reviews-heading">Reviews</h2>
+
+      {% if items and items|length > 0 %}
+        <ul>
+          {% for item in items %}
+            <li>
+              <a href="/item/{{ item.id }}">{{ item.movie }}</a>
+              <span> — Score: {{ item.score }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No reviews yet.</p>
+      {% endif %}
+    </section>
+  </main>
 </body>
 </html>
