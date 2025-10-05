@@ -40,7 +40,6 @@ Create the database tables:
 
 ```
 sqlite3 database.db < schema.sql
-.q #quit sqlite3 and return to terminal
 ```
 
 Start the app with:
