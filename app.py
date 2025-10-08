@@ -27,6 +27,8 @@ def find_item():
 @app.route("/item/<int:item_id>")
 def show_item(item_id):
     item = items.get_item(item_id)
+    if not item:
+        abort(404)
     return render_template("show_item.html", item=item)
 
 @app.route("/new_item")
@@ -35,18 +37,21 @@ def new_item():
 
 @app.route("/create_item", methods=["POST"])
 def create_item():
+    title = request.form["title"]
     movie = request.form["movie"]
     review = request.form["review"]
     score = request.form["score"]
     user_id = session["user_id"]
 
-    items.add_item(movie, review, score, user_id)
+    items.add_item(title, movie, review, score, user_id)
 
     return redirect("/")
 
 @app.route("/edit_item/<int:item_id>")
 def edit_item(item_id):
     item = items.get_item(item_id)
+    if not item:
+        abort(404)
     if item["user_id"] != session["user_id"]:
         abort(403)
     return render_template("edit_item.html", item=item)
@@ -55,19 +60,24 @@ def edit_item(item_id):
 def update_item():
     item_id = request.form["item_id"]
     item = items.get_item(item_id)
+    if not item:
+        abort(404)
     if item["user_id"] != session["user_id"]:
         abort(403)
+    title = request.form["title"]    
     movie = request.form["movie"]
     review = request.form["review"]
     score = request.form["score"]
 
-    items.update_item(item_id, movie, review, score)
+    items.update_item(item_id, title, movie, review, score)
 
     return redirect("/item/" +str(item_id))
 
 @app.route("/remove_item/<int:item_id>", methods=["GET", "POST"])
 def remove_item(item_id):
     item = items.get_item(item_id)
+    if not item:
+        abort(404)
     if item["user_id"] != session["user_id"]:
         abort(403)
 

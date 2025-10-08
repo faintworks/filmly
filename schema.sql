@@ -6,6 +6,7 @@ CREATE TABLE users (
 
 CREATE TABLE items (
     id INTEGER PRIMARY KEY,
+    title TEXT,
     movie TEXT,
     review TEXT,
     score INTEGER,

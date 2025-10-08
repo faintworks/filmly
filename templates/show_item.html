@@ -2,17 +2,20 @@
 <html>
 
 <head>
-  <title>{{ item.movie }}</title>
+  <title>{{ item.title }}</title>
 </head>
 
 <body>
-  <h1>{{ item.movie }} </h1>
+  <h1>{{ item.title }} </h1>
     {% if session.user_id == item.user_id %}
     <p>
         <a href="/edit_item/{{ item.id }}">Edit post</a>
         <a href="/remove_item/{{ item.id }}">Remove post</a>
     </p>
     {% endif %}
+    <p>
+        {{ item.movie }}
+    </p>
     <p>
         {{ item.review }}
     </p>

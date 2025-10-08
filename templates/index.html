@@ -35,14 +35,24 @@
       <h2 id="reviews-heading">Reviews</h2>
 
       {% if items and items|length > 0 %}
-        <ul>
-          {% for item in items %}
-            <li>
-              <a href="/item/{{ item.id }}">{{ item.movie }}</a>
-              <span> — Score: {{ item.score }}</span>
-            </li>
-          {% endfor %}
-        </ul>
+        <table>
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Movie</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items %}
+              <tr>
+                <td><a href="/item/{{ item.id }}">{{ item.title }}</a></td>
+                <td>{{ item.movie }}</td>
+                <td>{{ item.score }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       {% else %}
         <p>No reviews yet.</p>
       {% endif %}
