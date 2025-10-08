@@ -33,7 +33,9 @@ def show_item(item_id):
 
 @app.route("/new_item")
 def new_item():
-    return render_template("new_item.html")
+    if "user_id" in session:
+        return render_template("new_item.html")
+    return redirect("/")
 
 @app.route("/create_item", methods=["POST"])
 def create_item():
@@ -136,6 +138,7 @@ def login():
 
 @app.route("/logout")
 def logout():
-    del session["user_id"]
-    del session["username"]
+    if "user_id" in session:
+        del session["user_id"]
+        del session["username"]
     return redirect("/")
