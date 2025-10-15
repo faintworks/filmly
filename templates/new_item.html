@@ -10,19 +10,19 @@
   <form action="/create_item" method="post">
     <p>
       Review title: <br />
-      <input type="text" name="title" />
+      <input type="text" name="title" maxlength="50" required/>
     </p>
     <p>
       Movie title: <br />
-      <input type="text" name="movie" />
+      <input type="text" name="movie" maxlength="100" required/>
     </p>
     <p>
       Review: <br />
-      <textarea name="review" rows="10" cols="80"></textarea>
+      <textarea name="review" rows="10" cols="80" maxlength="1000" required></textarea>
     </p>
     <p>
-      Score (0-5): <br />
-      <input name="score" type="range" min="0" max="5" step="1" style="padding: 0;">
+      Score (1-100): <br />
+      <input name="score" type="number" pattern="^(100|[1-9][0-9]?)$" min="1" max="100" required inputmode="numeric">
     </p>
     <input type="submit" value="Post" />
   </form>

@@ -10,19 +10,19 @@
   <form action="/update_item" method="post">
     <p>
       Review title: <br />
-      <input type="text" name="title" value="{{ item.title }}" maxlength="50"/>
+      <input type="text" name="title" value="{{ item.title }}" maxlength="50" required/>
     </p>
     <p>
       Movie title: <br />
-      <input type="text" name="movie" value="{{ item.movie }}"/>
+      <input type="text" name="movie" value="{{ item.movie }}" maxlength="100" required/>
     </p>
     <p>
       Review: <br />
-      <textarea name="review" rows="10" cols="80">{{ item.review }}</textarea>
+      <textarea name="review" rows="10" cols="80" required>{{ item.review }}</textarea>
     </p>
     <p>
-      Score (0-5): <br />
-      <input name="score" type="range" min="0" max="5" step="1" style="padding: 0;" value="{{ item.score }}">
+      Score (1-100): <br />
+      <input name="score" type="number" pattern="^(100|[1-9][0-9]?)$" min="1" max="100" required inputmode="numeric" value="{{ item.score }}">
     </p>
     <input type="hidden" name="item_id" value="{{ item.id }}" />
     <input type="submit" value="Save changes" />

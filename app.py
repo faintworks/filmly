@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import abort, redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session, flash, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 import config
 import db
@@ -26,6 +26,7 @@ def find_item():
     else:
         query = ""
         results = []
+
     return render_template("find_item.html", query=query, results=results)
 
 @app.route("/item/<int:item_id>")
@@ -33,6 +34,7 @@ def show_item(item_id):
     item = items.get_item(item_id)
     if not item:
         abort(404)
+
     return render_template("show_item.html", item=item)
 
 @app.route("/new_item")
@@ -45,10 +47,18 @@ def create_item():
     require_login()
     title = request.form["title"]
     movie = request.form["movie"]
+    if not title or not movie or len(title) > 50 or len(movie) > 100:
+        abort(400)
     review = request.form["review"]
-    score = request.form["score"]
+    if not review or len(review) > 1000:
+        abort(400)
+    score_raw = request.form.get("score", "").strip()
+    if not (score_raw.isdigit() and 1 <= int(score_raw) <= 100):
+        abort(400)
+    score = int(score_raw)
+    if not score:
+        abort(400)
     user_id = session["user_id"]
-
     items.add_item(title, movie, review, score, user_id)
 
     return redirect("/")
@@ -61,6 +71,7 @@ def edit_item(item_id):
         abort(404)
     if item["user_id"] != session["user_id"]:
         abort(403)
+
     return render_template("edit_item.html", item=item)
 
 @app.route("/update_item", methods=["POST"])
@@ -99,7 +110,6 @@ def remove_item(item_id):
             return redirect("/")
         else:
             return redirect("/item/" +str(item_id))
-
 
 @app.route("/register")
 def register():
