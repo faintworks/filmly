@@ -85,8 +85,19 @@ def update_item():
         abort(403)
     title = request.form["title"]    
     movie = request.form["movie"]
+    if not title or not movie or len(title) > 50 or len(movie) > 100:
+        abort(400)
     review = request.form["review"]
+    if not review or len(review) > 1000:
+        abort(400)
     score = request.form["score"]
+    score_raw = request.form.get("score", "").strip()
+    if not (score_raw.isdigit() and 1 <= int(score_raw) <= 100):
+        abort(400)
+    score = int(score_raw)
+    if not score:
+        abort(400)
+    
 
     items.update_item(item_id, title, movie, review, score)
 
