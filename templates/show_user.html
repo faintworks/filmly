@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{ user.username }}'s profile</title>
+</head>
+
+<body>
+  <h1>{{ user.username }}'s profile </h1>
+  <main>
+    <section aria-labelledby="reviews-heading">
+      <h2 id="reviews-heading">Posts</h2>
+        <p>
+        This user has posted {{ items | count }} reviews
+        </p>
+      {% if items and items|length > 0 %}
+        <table>
+          <thead>
+            <tr>
+              <th>Review Title</th>
+              <th>Movie</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in items %}
+              <tr>
+                <td><a href="/item/{{ item.id }}">{{ item.title }}</a></td>
+                <td>{{ item.movie }}</td>
+                <td>{{ item.score }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>User has no reviews yet.</p>
+      {% endif %}
+    </section>
+  </main>
+    <p>
+    <a href="/" >Return to main page</a>
+    </p>
+</body>
+
+</html>
