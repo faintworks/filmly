@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask
 from flask import abort, redirect, render_template, request, session, flash, url_for
-import config, db, items, users 
+import config, db, items, users
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -39,7 +39,8 @@ def show_item(item_id):
     item = items.get_item(item_id)
     if not item:
         abort(404)
-    return render_template("show_item.html", item=item)
+    attributes = items.get_attributes(item_id)
+    return render_template("show_item.html", item=item, attributes=attributes)
 
 @app.route("/new_item")
 def new_item():
@@ -49,21 +50,31 @@ def new_item():
 @app.route("/create_item", methods=["POST"])
 def create_item():
     require_login()
-    title = request.form["title"]
-    movie = request.form["movie"]
+    
+    title = request.form.get("title", "").strip()
+    movie = request.form.get("movie", "").strip()
+    review = request.form.get("review", "").strip()
+    score_raw = request.form.get("score", "").strip()
+
     if not title or not movie or len(title) > 50 or len(movie) > 100:
         abort(400)
-    review = request.form["review"]
     if not review or len(review) > 1000:
         abort(400)
-    score_raw = request.form.get("score", "").strip()
     if not (score_raw.isdigit() and 1 <= int(score_raw) <= 100):
         abort(400)
+
     score = int(score_raw)
-    if not score:
-        abort(400)
-    user_id = session["user_id"]
-    items.add_item(title, movie, review, score, user_id)
+    user_id = session["user_id"] 
+
+    attributes = []
+    ptype = request.form["ptype"]
+    if ptype:
+        attributes.append(("Post type", ptype))
+    genre = request.form["genre"]
+    if genre:
+        attributes.append(("Genre", genre))
+
+    items.add_item(title, movie, review, score, user_id, attributes)
 
     return redirect("/")
 

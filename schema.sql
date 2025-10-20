@@ -1,14 +1,21 @@
 CREATE TABLE users (
-    id INTEGER PRIMARY KEY,
-    username TEXT UNIQUE,
-    password_hash TEXT
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL
 );
 
 CREATE TABLE items (
-    id INTEGER PRIMARY KEY,
-    title TEXT,
-    movie TEXT,
-    review TEXT,
-    score INTEGER,
-    user_id INTEGER REFERENCES users
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  movie TEXT NOT NULL,
+  review TEXT NOT NULL,
+  score INTEGER NOT NULL CHECK (score BETWEEN 1 AND 100),
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE item_attributes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER REFERENCES items,
+    title TEXT NOT NULL,
+    value TEXT NOT NULL
+)

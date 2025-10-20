@@ -1,12 +1,26 @@
 import db
 
-def add_item(title, movie, review, score, user_id):
+def add_item(title, movie, review, score, user_id, attributes):
     sql = """INSERT INTO items (title, movie, review, score, user_id) 
             VALUES (?, ?, ?, ?, ?)"""
     db.execute(sql, [title, movie, review, score, user_id])
 
+    item_id = db.last_insert_id()
+
+    sql = "INSERT INTO item_attributes (item_id, title, value) VALUES (?, ?, ?)"
+    for title, value in attributes:
+        db.execute(sql, [item_id, title, value])
+
+def get_attributes(item_id):
+    sql = "SELECT title, value FROM item_attributes WHERE item_id = ?"
+    return db.query(sql, [item_id])
+
+
 def get_items():
-    sql = "SELECT id, title, movie, score FROM items ORDER BY id DESC"
+    sql = """SELECT i.id, i.title, i.movie, i.score, u.username 
+            FROM items i
+            JOIN users u ON u.id = i.user_id
+            ORDER BY i.id DESC"""
     return db.query(sql)
 
 def get_item(item_id):
