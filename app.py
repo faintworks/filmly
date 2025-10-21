@@ -85,8 +85,16 @@ def edit_item(item_id):
         abort(404)
     if item["user_id"] != session["user_id"]:
         abort(403)
+    
+    all_attributes = items.get_all_attributes()
+    attributes = {}
+    for attribute in all_attributes:
+        attributes[attribute] = ""
+    for entry in items.get_attributes(item_id):
+        attributes[entry["title"]] = entry["value"]
+    items.get_attributes(item_id)
 
-    return render_template("edit_item.html", item=item)
+    return render_template("edit_item.html", item=item, attributes=attributes, all_attributes=all_attributes)
 
 @app.route("/update_item", methods=["POST"])
 def update_item():
@@ -112,8 +120,13 @@ def update_item():
     if not score:
         abort(400)
     
+    attributes = []
+    for entry in request.form.getlist("attributes[]"):
+        if entry:
+            parts = entry.split(":",1)
+            attributes.append((parts[0], parts[1]))
 
-    items.update_item(item_id, title, movie, review, score)
+    items.update_item(item_id, title, movie, review, score, attributes)
 
     return redirect("/item/" +str(item_id))
 
