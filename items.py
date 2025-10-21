@@ -9,9 +9,8 @@ def get_all_attributes():
         attributes[title] = []
     for title, value in result:
         attributes[title].append(value)
-    
-    return attributes
 
+    return attributes
 
 def add_item(title, movie, review, score, user_id, attributes):
     sql = """INSERT INTO items (title, movie, review, score, user_id) 
@@ -27,7 +26,6 @@ def add_item(title, movie, review, score, user_id, attributes):
 def get_attributes(item_id):
     sql = "SELECT title, value FROM item_attributes WHERE item_id = ?"
     return db.query(sql, [item_id])
-
 
 def get_items():
     sql = """SELECT i.id, i.title, i.movie, i.score, u.username 
@@ -62,6 +60,8 @@ def update_item(item_id, title, movie, review, score, attributes):
         db.execute(sql, [item_id, title, value])
 
 def remove_item(item_id):
+    sql = "DELETE FROM item_attributes WHERE item_id = ?"
+    db.execute(sql, [item_id])
     sql = "DELETE FROM items WHERE id = ?"
     db.execute(sql, [item_id])
 
