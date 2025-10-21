@@ -21,7 +21,14 @@ CREATE TABLE attributes (
 
 CREATE TABLE item_attributes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    item_id INTEGER REFERENCES items,
+    item_id INTEGER NOT NULL REFERENCES items,
     title TEXT NOT NULL,
     value TEXT NOT NULL
+);
+
+CREATE TABLE comments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  item_id INTEGER NOT NULL REFERENCES items,
+  user_id INTEGER NOT NULL REFERENCES users,
+  comment TEXT NOT NULL
 );

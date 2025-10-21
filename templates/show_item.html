@@ -32,6 +32,17 @@
         {% endfor %}
     </tr>
     {% endif %}
+    <h2>Comments:</h2>
+    {% for comment in comments %}
+    <li>[<a href="/user/{{ comment.user_id }}">{{ comment.username }}]</a>:<br />
+        {{ comment.comment }}</li>
+        <br />
+    {% endfor %}
+    <form action="/create_comment" method="post">
+        New comment: <br />
+        <textarea name="comment" rows="10" cols="80" required></textarea> <br />
+        <input type="hidden" name="item_id" value="{{ item.id }}" />
+        <input type="submit" value="Send" />
     <p>
     <a href="/" >Return to main page</a>
     </p>
