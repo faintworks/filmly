@@ -65,13 +65,19 @@ def create_item():
         abort(400)
 
     score = int(score_raw)
-    user_id = session["user_id"] 
+    user_id = session["user_id"]
+
+    all_attributes = items.get_all_attributes()
 
     attributes = []
     for entry in request.form.getlist("attributes[]"):
         if entry:
-            parts = entry.split(":",1)
-            attributes.append((parts[0], parts[1]))
+            attr_title, attr_value = entry.split(":",1)
+            if attr_title not in all_attributes:
+                abort(400)
+            if attr_value not in all_attributes[attr_title]:
+                abort(400)
+            attributes.append((attr_title, attr_value))
 
     items.add_item(title, movie, review, score, user_id, attributes)
 
@@ -120,11 +126,23 @@ def update_item():
     if not score:
         abort(400)
     
+    all_attributes = items.get_all_attributes()
+    attributes = {}
+    for attribute in all_attributes:
+        attributes[attribute] = ""
+    for entry in items.get_attributes(item_id):
+        attributes[entry["title"]] = entry["value"]
+    items.get_attributes(item_id)
+
     attributes = []
     for entry in request.form.getlist("attributes[]"):
         if entry:
-            parts = entry.split(":",1)
-            attributes.append((parts[0], parts[1]))
+            attr_title, attr_value = entry.split(":",1)
+            if attr_title not in all_attributes:
+                abort(400)
+            if attr_value not in all_attributes[attr_title]:
+                abort(400)
+            attributes.append((attr_title, attr_value))
 
     items.update_item(item_id, title, movie, review, score, attributes)
 
