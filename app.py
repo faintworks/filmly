@@ -45,7 +45,8 @@ def show_item(item_id):
 @app.route("/new_item")
 def new_item():
     require_login()
-    return render_template("new_item.html")
+    attributes = items.get_all_attributes()
+    return render_template("new_item.html", attributes=attributes)
 
 @app.route("/create_item", methods=["POST"])
 def create_item():
@@ -67,12 +68,10 @@ def create_item():
     user_id = session["user_id"] 
 
     attributes = []
-    ptype = request.form["ptype"]
-    if ptype:
-        attributes.append(("Post type", ptype))
-    genre = request.form["genre"]
-    if genre:
-        attributes.append(("Genre", genre))
+    for entry in request.form.getlist("attributes[]"):
+        if entry:
+            parts = entry.split(":",1)
+            attributes.append((parts[0], parts[1]))
 
     items.add_item(title, movie, review, score, user_id, attributes)
 

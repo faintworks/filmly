@@ -13,9 +13,15 @@ CREATE TABLE items (
   user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
+CREATE TABLE attributes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  value TEXT NOT NULL
+);
+
 CREATE TABLE item_attributes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     item_id INTEGER REFERENCES items,
     title TEXT NOT NULL,
     value TEXT NOT NULL
-)
+);

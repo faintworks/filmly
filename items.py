@@ -1,5 +1,18 @@
 import db
 
+def get_all_attributes():
+    sql = "SELECT title, value FROM attributes ORDER BY id"
+    result = db.query(sql)
+
+    attributes = {}
+    for title, value in result:
+        attributes[title] = []
+    for title, value in result:
+        attributes[title].append(value)
+    
+    return attributes
+
+
 def add_item(title, movie, review, score, user_id, attributes):
     sql = """INSERT INTO items (title, movie, review, score, user_id) 
             VALUES (?, ?, ?, ?, ?)"""

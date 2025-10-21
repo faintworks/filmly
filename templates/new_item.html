@@ -16,8 +16,6 @@
       Movie title: <br />
       <input type="text" name="movie" maxlength="100" placeholder="e.g. Batman" required/>
     </p>
-    <label>Movie genre: </label><br />
-      <input type="text" name="genre" placeholder="e.g. horror">
     <p>
       Post text: <br />
       <textarea name="review" rows="10" cols="80" maxlength="1000" required></textarea>
@@ -26,16 +24,17 @@
       Score (1-100): <br />
       <input name="score" type="number" pattern="^(100|[1-9][0-9]?)$" min="1" max="100" required inputmode="numeric">
     </p>
+    {% for attribute in attributes %}
     <p>
-      <label>Post type: </label><br />
-        <select name="ptype" required>
-          <option value="Full review">Full review</option>
-          <option value="Quick review">Quick review</option>
-          <option value="First impressions">First impressions</option>
-          <option value="Analysis">Analysis</option>
-        </select>
-      <br>
+      {{ attribute }}: <br />
+      <select name="attributes[]" required>
+        <option value="">(select)</option>
+        {% for option in attributes[attribute] %}
+          <option value="{{ attribute }}:{{ option }}">{{ option }}</option>
+        {% endfor %}
+      </select>
     </p>
+    {% endfor %}
     <input type="submit" value="Post" />
   </form>
 </body>
