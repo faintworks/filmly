@@ -40,7 +40,7 @@ def get_attributes(item_id):
     return db.query(sql, [item_id])
 
 def get_items():
-    sql = """SELECT i.id, i.title, i.movie, i.score, u.username 
+    sql = """SELECT i.id, i.user_id, i.title, i.movie, i.score, u.username 
             FROM items i
             JOIN users u ON u.id = i.user_id
             ORDER BY i.id DESC"""
